@@ -1,5 +1,7 @@
 # ferrav2
 
+![ferrav2 on the TriliumNext demo note](capture.png)
+
 A dark theme for [TriliumNext](https://github.com/TriliumNext/Trilium) built on the [Ferra](https://github.com/casperstorm/ferra) palette.
 
 Ferra is a warm palette of earthy browns and greens, with blush, coral, and rose as accents. This theme maps those colors onto the built-in Next dark theme: backgrounds, text, selection, links, editors, boards, and the note map. Mixes and translucent states are derived from the official colors. The stylesheet does not introduce hues of its own.
