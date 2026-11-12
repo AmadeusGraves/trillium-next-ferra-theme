@@ -1,0 +1,733 @@
+/* ════════════════════════════════════════════════════════════════════
+ *  FERRA v2 — TriliumNext
+ *  Base: #appThemeBase=next-dark
+ *  Paleta oficial: https://github.com/casperstorm/ferra (README + ports
+ *  alacritty/ghostty). Solo se usan esos colores; las transparencias y
+ *  mezclas se derivan de ellos, nunca colores nuevos.
+ *
+ *  Color de nota (.with-hue): en modales y paneles se neutraliza; en el
+ *  tablero se mezcla con los fondos ferra (§ 5).
+ *  Doc: https://docs.triliumnotes.org/user-guide/theme-development/
+ *  Tras editar: cerrar y abrir Trilium (el CSS del tema queda en caché).
+ * ════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Paleta oficial ferra ─────────────────────────────────────── */
+:root {
+  --ferra-night: #2b292d;   /* fondo */
+  --ferra-ash:   #383539;
+  --ferra-umber: #4d424b;   /* selección */
+  --ferra-bark:  #6f5d63;
+  --ferra-mist:  #d1d1e0;
+  --ferra-sage:  #b1b695;
+  --ferra-blush: #fecdb2;   /* texto y cursor */
+  --ferra-coral: #ffa07a;
+  --ferra-rose:  #f6b6c9;
+  --ferra-ember: #e06b75;
+  --ferra-honey: #f5d76e;
+
+  /* ANSI de los ports oficiales */
+  --ferra-black:     #1f1e20;
+  --ferra-red-dim:   #c05862;
+  --ferra-sage-dim:  #9f9f7c;
+
+  /* Derivados, precalculados en hex (el canvas del mapa de notas no
+     entiende color-mix() y lo pinta negro):
+     muted = blush 62% + night · faint = blush 40% + night */
+  --ferra-muted:  #ae8f7f;
+  --ferra-faint:  #7f6b62;
+  --ferra-hover:  #504748;   /* ash 88% + blush 12%: hover cálido, sin tinte morado */
+  --ferra-coral-a20: color-mix(in srgb, var(--ferra-coral) 20%, transparent);
+  --ferra-coral-a45: color-mix(in srgb, var(--ferra-coral) 45%, transparent);
+
+  --ferra-radius: 6px;
+}
+
+/* ─── 2. Variables del tema Next ──────────────────────────────────── */
+/* :root:root y no :root — Trilium carga theme-next-dark.css DESPUÉS de
+   este tema; con la misma especificidad sus valores ganarían en todo lo
+   que queda fuera de #trilium-app (modales, menús, resultados…). */
+#trilium-app,
+:root:root {
+  --theme-style: dark;
+  --mermaid-theme: dark;
+  --native-titlebar-background: var(--ferra-ash);
+  --window-background-color-bgfx: var(--ferra-night);
+
+  /* Tipografía */
+  --main-font-family: "ShureTechMono Nerd Font", ui-monospace, monospace;
+  --tree-font-family: var(--main-font-family);
+  --detail-font-family: var(--main-font-family);
+  --monospace-font-family: "FiraCode Nerd Font", "Fira Code", ui-monospace, monospace;
+
+  /* Base */
+  --main-background-color: var(--ferra-night);
+  --main-text-color: var(--ferra-blush);
+  --main-border-color: var(--ferra-umber);
+  --subtle-border-color: var(--ferra-ash);
+  --dropdown-border-color: var(--ferra-umber);
+  --dropdown-shadow-opacity: .6;
+  --dropdown-item-icon-destructive-color: var(--ferra-ember);
+  --dropdown-backdrop-filter: none;
+  --form-error-text-color: var(--ferra-ember);
+  --contextual-help-icon-color: var(--ferra-coral);
+  --accented-background-color: var(--ferra-ash);
+  --more-accented-background-color: var(--ferra-umber);
+  --muted-text-color: var(--ferra-muted);
+  --selection-background-color: var(--ferra-umber);
+
+  --root-background: var(--ferra-ash);
+
+  --tool-dialog-background-color: var(--ferra-night);
+  --tool-dialog-shadow-color: var(--ferra-black);
+
+  /* Botones */
+  --button-text-color: var(--ferra-blush);
+  --button-background-color: var(--ferra-ash);
+  --button-border-color: var(--ferra-umber);
+  --button-disabled-text-color: var(--ferra-bark);
+  --button-disabled-background-color: var(--ferra-night);
+
+  --cmd-button-background-color: var(--ferra-ash);
+  --cmd-button-text-color: var(--ferra-blush);
+  --cmd-button-hover-background-color: var(--ferra-umber);
+  --cmd-button-hover-text-color: var(--ferra-blush);
+  --cmd-button-shadow-color: var(--ferra-black);
+  --cmd-button-icon-color: var(--ferra-blush);
+  --cmd-button-keyboard-shortcut-background: var(--ferra-night);
+  --cmd-button-keyboard-shortcut-color: var(--ferra-muted);
+
+  --low-profile-button-active-background-color: var(--ferra-umber);
+  --low-profile-button-active-color: var(--ferra-blush);
+
+  --button-group-background-color: var(--ferra-night);
+  --button-group-active-button-background-color: var(--ferra-umber);
+  --button-group-active-button-color: var(--ferra-blush);
+  --button-group-active-button-shadow-color: var(--ferra-black);
+
+  --icon-button-hover-background: var(--ferra-umber);
+  --icon-button-hover-color: var(--ferra-blush);
+  --opaque-icon-button-background: var(--ferra-ash);
+  --opaque-icon-button-hover-background-color: var(--ferra-umber);
+  --opaque-icon-button-backdrop-filter: none;
+
+  /* Formularios */
+  --input-background-color: var(--ferra-ash);
+  --input-text-color: var(--ferra-blush);
+  --input-placeholder-color: var(--ferra-faint);
+  --input-selection-background: var(--ferra-umber);
+  --input-selection-text-color: var(--ferra-blush);
+  --input-hover-background: var(--ferra-hover);
+  --input-hover-color: var(--ferra-blush);
+  --input-focus-outline-color: var(--ferra-bark);
+  --input-focus-background: var(--ferra-ash);
+  --input-focus-color: var(--ferra-blush);
+  --input-action-button-color: var(--ferra-muted);
+  --input-action-button-hover: var(--ferra-blush);
+
+  /* Variables sueltas con colores fijos de Trilium */
+  --launcher-pane-text-color: var(--ferra-blush);   /* títulos de Opciones */
+  --danger-color: var(--ferra-ember);
+  --primary-button-text-color: var(--ferra-night);
+  --collection-filter-clear-color: var(--ferra-blush);
+  --kbd-color: var(--ferra-blush);
+  --kbd-background: var(--ferra-ash);
+  --kbd-border: var(--ferra-umber);
+  --overlay-button-background: var(--ferra-ash);
+  --overlay-button-color: var(--ferra-blush);
+  --note-list-view-large-icon-background: var(--ferra-umber);
+  --note-list-view-large-icon-color: var(--ferra-blush);
+
+  --radio-checkbox-background: var(--ferra-umber);
+  --radio-checkbox-hover-background: var(--ferra-bark);
+  --radio-checkbox-indicator-color: var(--ferra-blush);
+
+  --select-focus-background: var(--ferra-ash);
+  --select-focus-text-color: var(--ferra-blush);
+  --select-dropdown-text-color: var(--ferra-blush);
+  --select-group-heading-text-color: var(--ferra-muted);
+  --select-arrow-svg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='transparent' stroke='%23fecdb2' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
+
+  /* Enlaces: coral (ferra lo usa en el hueco "blue" del ANSI) */
+  --link-color: var(--ferra-coral);
+  --link-hover-background: var(--ferra-coral-a20);
+  --link-hover-color: var(--ferra-coral);
+  --link-selection-outline-color: var(--ferra-coral-a45);
+
+  /* Hover / activo */
+  --hover-item-text-color: var(--ferra-blush);
+  --hover-item-background-color: var(--ferra-hover);
+  --hover-item-border-color: transparent;
+  --active-item-text-color: var(--ferra-blush);
+  --active-item-background-color: var(--ferra-umber);
+  --active-item-border-color: transparent;
+
+  /* Menús: opacos (con transparencia se veía el fondo del escritorio) */
+  --menu-text-color: var(--ferra-blush);
+  --menu-background-color: var(--ferra-ash);
+  --menu-background-color-no-backdrop: var(--ferra-ash);
+  --menu-item-icon-color: var(--ferra-coral);
+  --menu-item-keyboard-shortcut-color: var(--ferra-muted);
+  --menu-item-arrow-color: var(--ferra-muted);
+  --menu-item-delimiter-color: var(--ferra-umber);
+  --menu-item-group-header-color: var(--ferra-muted);
+  --menu-section-background-color: var(--ferra-night);
+  --menu-submenu-mobile-background-color: var(--ferra-night);
+
+  --glass-background: var(--ferra-ash);
+  --glass-edge-color: var(--ferra-umber);
+  --glass-highlight-color: var(--ferra-umber);
+
+  --grouped-background-color: var(--ferra-night);
+  --grouped-card-background-color: var(--ferra-ash);
+
+  /* Modales */
+  --modal-backdrop-color: var(--ferra-black);
+  --modal-shadow-color: var(--ferra-black);
+  --modal-border-color: var(--ferra-umber);
+  --modal-background-color: var(--ferra-night);
+  --modal-title-color: var(--ferra-blush);
+  --modal-control-button-background: var(--ferra-ash);
+  --modal-control-button-color: var(--ferra-blush);
+  --modal-control-button-hover-color: var(--ferra-blush);
+  --modal-control-button-hover-background: var(--ferra-umber);
+  --modal-footer-background: var(--ferra-ash);
+  --modal-footer-color: var(--ferra-muted);
+
+  /* Toasts */
+  --toast-background: var(--ferra-ash);
+  --toast-text-color: var(--ferra-blush);
+  --toast-close-button-background: var(--ferra-umber);
+
+  /* Búsqueda rápida */
+  --quick-search-background: var(--ferra-night);
+  --quick-search-color: var(--ferra-muted);
+  --quick-search-hover-background: var(--ferra-hover);
+  --quick-search-focus-border: var(--ferra-bark);
+  --quick-search-focus-background: var(--ferra-night);
+  --quick-search-focus-color: var(--ferra-blush);
+  --quick-search-result-content-background: var(--ferra-night);
+  --quick-search-result-highlight-color: var(--ferra-honey);
+  --quick-search-result-fuzzy-highlight-color: var(--ferra-coral);
+  --quick-search-item-delimiter-color: var(--ferra-umber);
+
+  /* Árbol */
+  --left-pane-collapsed-border-color: var(--ferra-black);
+  --left-pane-background-color: var(--ferra-ash);
+  --left-pane-text-color: var(--ferra-blush);
+  --left-pane-icon-color: var(--ferra-blush);
+  --left-pane-item-hover-background: var(--ferra-hover);
+  --left-pane-item-selected-background: var(--ferra-umber);
+  --left-pane-item-selected-color: var(--ferra-blush);
+  --left-pane-item-selected-shadow: none;
+  --left-pane-item-action-button-background: var(--ferra-bark);
+  --left-pane-item-action-button-color: var(--ferra-blush);
+  --left-pane-item-action-button-hover-background: var(--ferra-blush);
+  --left-pane-peek-background: var(--ferra-ash);
+
+  /* Lanzadores */
+  --launcher-pane-vert-background-color: var(--ferra-ash);
+  --launcher-pane-vert-text-color: var(--ferra-blush);
+  --launcher-pane-vert-button-hover-color: var(--ferra-blush);
+  --launcher-pane-vert-button-hover-background: var(--ferra-umber);
+  --launcher-pane-vert-button-hover-shadow: none;
+  --launcher-pane-vert-background-color-bgfx: var(--ferra-ash);
+
+  --launcher-pane-horiz-border-color: var(--ferra-night);
+  --launcher-pane-horiz-background-color: var(--ferra-ash);
+  --launcher-pane-horiz-text-color: var(--ferra-blush);
+  --launcher-pane-horiz-button-hover-color: var(--ferra-blush);
+  --launcher-pane-horiz-button-hover-background: var(--ferra-umber);
+  --launcher-pane-horiz-button-hover-shadow: none;
+  --launcher-pane-horiz-background-color-bgfx: var(--ferra-ash);
+  --launcher-pane-horiz-border-color-bgfx: var(--ferra-night);
+
+  --global-menu-update-available-badge-background-color: var(--ferra-sage);
+  --global-menu-update-available-badge-color: var(--ferra-night);
+  --protected-session-active-icon-color: var(--ferra-sage);
+  --sync-status-error-pulse-color: var(--ferra-ember);
+
+  --classic-toolbar-vert-layout-background-color: var(--ferra-night);
+  --classic-toolbar-horiz-layout-background-color: var(--ferra-night);
+
+  --center-pane-vert-layout-background-color-bgfx: var(--ferra-night);
+  --center-pane-horiz-layout-background-color-bgfx: var(--ferra-night);
+
+  /* Panel derecho */
+  --right-pane-background-color: var(--ferra-night);
+  --right-pane-background-color-bgfx: var(--ferra-night);
+  --right-pane-heading-color: var(--ferra-muted);
+  --right-pane-peek-background: var(--ferra-ash);
+  --right-pane-item-hover-background: var(--ferra-umber);
+  --right-pane-item-hover-color: var(--ferra-blush);
+
+  --peek-pane-backdrop-color: color-mix(in srgb, var(--ferra-black) 40%, transparent);
+  --peek-pane-shadow-color: var(--ferra-black);
+
+  --gutter-color: transparent;
+  --gutter-hover-color: var(--ferra-bark);
+
+  /* Pestañas */
+  --tab-close-button-hover-background: var(--ferra-ember);
+  --tab-close-button-hover-color: var(--ferra-night);
+  --active-tab-background-color: var(--ferra-night);
+  --active-tab-hover-background-color: var(--ferra-night);
+  --active-tab-icon-color: var(--ferra-blush);
+  --active-tab-text-color: var(--ferra-blush);
+  --active-tab-shadow: none;
+  --active-tab-dragging-shadow: 0 4px 12px var(--ferra-black);
+  --inactive-tab-background-color: transparent;
+  --inactive-tab-hover-background-color: var(--ferra-hover);
+  --inactive-tab-text-color: var(--ferra-muted);
+
+  --new-tab-button-background: transparent;
+  --new-tab-button-color: var(--ferra-muted);
+  --new-tab-button-shadow: none;
+  --new-tab-button-hover-background: var(--ferra-umber);
+  --new-tab-button-hover-color: var(--ferra-blush);
+
+  /* Barras, insignias, iconos */
+  --alert-bar-background: var(--ferra-umber);
+  --badge-background-color: var(--ferra-umber);
+  --badge-text-color: var(--ferra-blush);
+  --note-icon-background-color: var(--ferra-umber);
+  --note-icon-color: var(--ferra-blush);
+  --note-icon-hover-background-color: var(--ferra-bark);
+
+  --promoted-attribute-card-background-color: var(--ferra-ash);
+  --floating-button-background-color: var(--ferra-ash);
+  --floating-button-shadow-color: var(--ferra-black);
+  --overlay-button-shadow-color: var(--ferra-black);
+  --overlay-button-backdrop-filter: none;
+
+  --bottom-panel-background-color: var(--ferra-ash);
+  --bottom-panel-title-bar-background-color: var(--ferra-umber);
+  --status-bar-border-color: var(--ferra-ash);
+
+  /* Scrollbar */
+  --scrollbar-thumb-color: var(--ferra-umber);
+  --scrollbar-thumb-hover-color: var(--ferra-bark);
+  --scrollbar-background-color: transparent;
+
+  /* Código */
+  --code-block-box-shadow: 0 0 0 1px var(--ferra-ash);
+  --inline-code-background-color: var(--ferra-ash);
+  --inline-code-border-color: var(--ferra-umber);
+  --inline-code-hover-background-color: var(--ferra-umber);
+
+  /* Tarjetas */
+  --card-background-color: var(--ferra-ash);
+  --card-background-hover-color: var(--ferra-hover);
+  --card-border-color: transparent;
+  --card-box-shadow: none;
+
+  /* Calendario / línea temporal */
+  --calendar-color: var(--ferra-blush);
+  --calendar-day-hover-background: var(--ferra-umber);
+  --calendar-day-highlight-background: var(--ferra-umber);
+  --calendar-day-selected-background: var(--ferra-blush);
+  --calendar-day-selected-color: var(--ferra-night);
+  --calendar-coll-event-background-color: var(--ferra-umber);
+  --calendar-coll-event-text-color: var(--ferra-blush);
+  --calendar-coll-today-background-color: var(--ferra-ash);
+  --timeline-bullet-color: var(--ferra-bark);
+  --timeline-bullet-hover-color: var(--ferra-blush);
+  --timeline-connector-color: var(--ferra-umber);
+  --timeline-connector-active-color: var(--ferra-bark);
+
+  /* Tooltips (opacos) */
+  --tooltip-background-color: var(--ferra-ash);
+  --tooltip-foreground-color: var(--ferra-blush);
+  --tooltip-shadow-color: var(--ferra-black);
+  --tooltip-backdrop-filter: none;
+  --tooltip-kbd-color: var(--ferra-blush);
+  --tooltip-kbd-background: var(--ferra-umber);
+  --tooltip-kbd-border: var(--ferra-night);
+  --note-tooltip-background-color: var(--ferra-ash);
+
+  /* Ayuda */
+  --help-background-color: var(--ferra-ash);
+  --help-card-heading-color: var(--ferra-muted);
+  --help-kbd-shortcut-color: var(--ferra-blush);
+  --help-kbd-shortcut-background: var(--ferra-umber);
+  --help-kbd-shortcut-border: var(--ferra-bark);
+  --help-code-background: var(--ferra-umber);
+
+  /* CKEditor */
+  --ck-editor-popup-border-color: var(--ferra-umber);
+  --ck-editor-toolbar-button-on-background: var(--ferra-umber);
+  --ck-editor-toolbar-button-on-color: var(--ferra-blush);
+  --ck-editor-toolbar-button-on-shadow: none;
+  --ck-editor-toolbar-dropdown-button-open-background: var(--ferra-umber);
+  --ck-editor-widget-selection-color: var(--ferra-coral);
+  --text-note-table-header-background: var(--ferra-ash);
+
+  --admonition-note-accent-color: var(--ferra-blush);
+  --admonition-tip-accent-color: var(--ferra-sage);
+  --admonition-important-accent-color: var(--ferra-rose);
+  --admonition-caution-accent-color: var(--ferra-ember);
+  --admonition-warning-accent-color: var(--ferra-honey);
+
+  /* Colecciones */
+  --note-list-view-icon-color: var(--ferra-blush);
+  --note-list-view-content-background: var(--ferra-ash);
+  --note-list-view-search-result-highlight-color: var(--ferra-honey);
+
+  /* Tareas */
+  --task-checkbox-without-state-background: var(--ferra-umber);
+  --task-checkbox-without-state-hover-background: var(--ferra-bark);
+  --task-checkbox-with-state-background: var(--ferra-rose);   /* estados sin color propio, como «?» */
+  --task-checkbox-done-color: var(--ferra-sage-dim);
+  --task-checkbox-done-hover-color: var(--ferra-sage);
+  --task-checkbox-unknown-state-color: var(--ferra-ember);
+  --task-checkbox-glyph-color: var(--ferra-night);
+
+  /* Sintaxis de búsqueda */
+  --search-label-color: var(--ferra-coral);
+  --search-relation-color: var(--ferra-rose);
+  --search-negation-color: var(--ferra-ember);
+  --search-property-color: var(--ferra-sage-dim);
+  --search-keyword-color: var(--ferra-rose);
+  --search-operator-color: var(--ferra-muted);
+  --search-string-color: var(--ferra-sage);
+  --search-literal-color: var(--ferra-honey);
+  --search-bracket-color: var(--ferra-bark);
+
+  /* Log */
+  --log-timestamp-color: var(--ferra-bark);
+  --log-slow-color: var(--ferra-coral);
+  --log-http-verb-color: var(--ferra-rose);
+  --log-http-url-color: var(--ferra-blush);
+  --log-status-success-color: var(--ferra-sage);
+  --log-status-redirect-color: var(--ferra-sage);
+  --log-status-client-error-color: var(--ferra-honey);
+  --log-status-server-error-color: var(--ferra-ember);
+  --log-error-color: var(--ferra-ember);
+  --log-warning-color: var(--ferra-honey);
+  --log-sql-color: var(--ferra-blush);
+  --log-query-verb-color: var(--ferra-rose);
+  --log-search-verb-color: var(--ferra-sage);
+  --log-search-count-color: var(--ferra-bark);
+  --log-http-line-background-color: color-mix(in srgb, var(--ferra-rose) 6%, transparent);
+  --log-query-line-background-color: color-mix(in srgb, var(--ferra-honey) 6%, transparent);
+  --log-error-line-background-color: color-mix(in srgb, var(--ferra-ember) 12%, transparent);
+  --log-warning-line-background-color: color-mix(in srgb, var(--ferra-honey) 10%, transparent);
+
+  /* Uso de espacio (Opciones → Base de datos) */
+  --space-usage-body-color: var(--ferra-blush);
+  --space-usage-attachments-color: var(--ferra-honey);
+  --space-usage-revisions-color: var(--ferra-sage);
+  --space-usage-revisions-stripe-color: var(--ferra-black);
+  --space-usage-treemap-cell-background: var(--ferra-ash);
+  --space-usage-donut-track-color: var(--ferra-umber);
+
+  /* Insignias de nota (solo lectura, compartida, plantilla…): Trilium
+     trae azules, morados y turquesas fijos */
+  --badge-temporaraily-editable-background-color: color-mix(in srgb, var(--ferra-sage) 35%, var(--ferra-night));
+  --badge-read-only-background-color: color-mix(in srgb, var(--ferra-ember) 40%, var(--ferra-night));
+  --badge-office-preview-background-color: var(--ferra-umber);
+  --badge-share-background-color: var(--ferra-umber);
+  --badge-snippet-background-color: var(--ferra-umber);
+  --badge-template-background-color: color-mix(in srgb, var(--ferra-honey) 28%, var(--ferra-night));
+  --badge-template-text-color: var(--ferra-blush);
+  --badge-clipped-note-background-color: color-mix(in srgb, var(--ferra-coral) 32%, var(--ferra-night));
+  --badge-doc-url-background-color: color-mix(in srgb, var(--ferra-sage) 25%, var(--ferra-ash));
+  --badge-execute-background-color: color-mix(in srgb, var(--ferra-rose) 30%, var(--ferra-night));
+  --badge-active-content-background-color: var(--ferra-bark);
+
+  --help-card-shadow: none;
+
+  /* Tablero (base; los tintes por nota se anulan en § 5) */
+  --board-column-background: var(--ferra-ash);
+  --board-inbox-item-background: var(--ferra-night);
+  --board-inbox-item-hover-background: var(--ferra-umber);
+  --board-limit-exceeded-background: var(--ferra-red-dim);
+  --board-limit-exceeded-outline: var(--ferra-ember);
+  --board-drop-hint-color: var(--ferra-blush);
+  --board-drop-placeholder-background: var(--ferra-umber);
+  --board-column-drop-placeholder-background: var(--ferra-night);
+  --board-edit-backdrop: color-mix(in srgb, var(--ferra-black) 40%, transparent);
+  --board-selected-ring-color: var(--ferra-coral);
+  --board-selection-wedge-color: var(--ferra-umber);
+  --board-column-header-text-color: var(--ferra-blush);
+  --board-column-header-muted-text-color: var(--ferra-muted);
+  --board-text-color: var(--ferra-blush);
+  --board-muted-text-color: var(--ferra-muted);
+  --board-focus-outline-plain-color: var(--ferra-coral);
+  --board-item-shadow: none;
+  --board-item-hover-shadow: none;
+}
+
+/* Barra de título nativa: la doc pide fijarla en body y en hex (se lee
+   al abrir la ventana, no se actualiza en caliente) */
+body {
+  --native-titlebar-background: #383539;
+  --native-titlebar-foreground: #fecdb2;
+}
+
+/* ─── 3. Árbol ────────────────────────────────────────────────────── */
+#left-pane span.fancytree-node.fancytree-active .fancytree-title {
+  color: var(--ferra-blush);
+}
+#left-pane span.fancytree-expander {
+  color: var(--ferra-bark);
+}
+#left-pane span.fancytree-node:hover span.fancytree-expander {
+  color: var(--ferra-blush);
+}
+
+/* ─── 4. Neutralizar tintes por color de nota ─────────────────────── */
+/* Modal de edición rápida, hojas y paneles incrustados */
+body .quick-edit-dialog-wrapper.with-hue,
+body .calendar-event-sheet.with-hue,
+body .tn-embedded-note-sheet.with-hue {
+  --modal-background-color: var(--ferra-night);
+  --modal-border-color: var(--ferra-umber);
+  --promoted-attribute-card-background-color: var(--ferra-ash);
+}
+body .calendar-event-popover.with-hue,
+body .tn-embedded-note-panel.with-hue {
+  --menu-background-color: var(--ferra-ash);
+  --menu-background-color-no-backdrop: var(--ferra-ash);
+  --dropdown-border-color: var(--ferra-umber);
+  --promoted-attribute-card-background-color: var(--ferra-night);
+}
+body .modal.tab-bar-modal .tabs .tab-card.with-hue {
+  background-color: var(--ferra-ash);
+  border-color: var(--ferra-umber);
+}
+body .modal.tab-bar-modal .tabs .tab-card.active.with-hue {
+  background-color: var(--ferra-umber);
+  border-color: var(--ferra-bark);
+}
+body .note-book-card.with-hue {
+  --card-background-color: var(--ferra-ash);
+  --card-background-hover-color: var(--ferra-hover);
+}
+body .note-tooltip.with-hue {
+  --tooltip-background-color: var(--ferra-ash);
+}
+body .note-split.with-hue *::selection,
+body .quick-edit-dialog-wrapper.with-hue *::selection {
+  --selection-background-color: var(--ferra-umber);
+}
+body :is(.note-split, .quick-edit-dialog-wrapper, .tn-embedded-note-panel,
+         .calendar-event-popover, .calendar-event-sheet, .tn-embedded-note-sheet,
+         .nested-note-list-item, .ck-template-icon).with-hue,
+body .note-book-card.with-hue .note-book-header,
+body .board-column h3 {
+  --note-icon-custom-background-color: var(--ferra-umber);
+  --note-icon-custom-color: var(--ferra-blush);
+  --note-icon-hover-custom-background-color: var(--ferra-bark);
+}
+
+/* ─── 5. Tablero / Kanban ─────────────────────────────────────────── */
+/* Sin color de nota: superficies ferra. Con color de nota (.with-hue):
+   el tono que eliges se mezcla con los fondos ferra en vez del hsl()
+   saturado de Trilium, así se distingue pero no rompe la paleta. */
+#trilium-app .board-view-container .board-column,
+#trilium-app .board-view-container .board-column.with-hue {
+  background-color: var(--ferra-ash);
+  --board-column-header-text-color: var(--ferra-blush);
+  --board-column-header-muted-text-color: var(--ferra-muted);
+  --board-text-color: var(--ferra-blush);
+  --board-muted-text-color: var(--ferra-muted);
+  --board-focus-outline-color: var(--ferra-coral);
+}
+#trilium-app .tn-note-card,
+#trilium-app .tn-note-card.with-hue,
+#trilium-app .board-view-container .board-column.with-hue .board-note,
+#trilium-app .board-view-container .board-note.with-hue {
+  --note-card-background: var(--ferra-night);
+  --note-card-hover-background: var(--ferra-umber);
+  --note-card-text-color: var(--ferra-blush);
+  --note-card-muted-text-color: var(--ferra-muted);
+  --board-text-color: var(--ferra-blush);
+  --board-muted-text-color: var(--ferra-muted);
+  --board-focus-outline-color: var(--ferra-coral);
+}
+#trilium-app .board-view-container .board-note {
+  background-color: var(--ferra-night);
+}
+#trilium-app .board-view-container .board-note:hover,
+#trilium-app .board-view-container .board-note.editing {
+  background-color: var(--ferra-umber);
+}
+#trilium-app .board-view-container .board-column h3 .counter-badge {
+  background-color: var(--ferra-umber);
+  color: var(--ferra-blush);
+}
+/* Columna con color */
+#trilium-app .board-view-container .board-column.with-hue {
+  background-color: color-mix(in srgb, hsl(var(--board-column-custom-hue) 45% 60%) 14%, var(--ferra-ash));
+}
+#trilium-app .board-view-container .board-column.with-hue h3 {
+  color: color-mix(in srgb, hsl(var(--board-column-custom-hue) 60% 75%) 55%, var(--ferra-blush));
+}
+
+/* Tarjeta con color (propio o heredado de la columna) */
+#trilium-app .board-view-container .board-note.with-hue,
+#trilium-app .board-view-container .board-column.with-hue .board-note {
+  background-color: color-mix(in srgb, hsl(var(--board-item-hue) 45% 60%) 16%, var(--ferra-night));
+}
+#trilium-app .board-view-container .board-note.with-hue:hover,
+#trilium-app .board-view-container .board-column.with-hue .board-note:hover,
+#trilium-app .board-view-container .board-note.with-hue.editing {
+  background-color: color-mix(in srgb, hsl(var(--board-item-hue) 45% 60%) 26%, var(--ferra-umber));
+}
+#trilium-app .board-view-container .board-drag-preview .board-drop-hint,
+#trilium-app .board-view-container .board-drag-preview.hint-tinted .board-drop-hint {
+  background-color: var(--ferra-umber);
+}
+
+/* ─── 6. Notas de texto ───────────────────────────────────────────── */
+/* Todos los títulos en blush, como el resto del texto */
+.ck-content :is(h1, h2, h3, h4, h5, h6):where(:not(.excalidraw *)) { color: var(--ferra-blush); }
+
+.ck-content blockquote {
+  border-left: 3px solid var(--ferra-bark) !important;
+  color: var(--ferra-muted);
+}
+
+.ck-content code { color: var(--ferra-coral); }
+
+:root .ck-content pre {
+  background: var(--ferra-black) !important;
+  border-radius: var(--ferra-radius);
+}
+.ck-content pre code,
+.ck-content pre code.hljs { color: var(--ferra-blush); }
+
+/* highlight.js con la paleta ferra */
+.ck-content pre code .hljs-comment,
+.ck-content pre code .hljs-quote          { color: var(--ferra-bark); font-style: italic; }
+.ck-content pre code .hljs-keyword,
+.ck-content pre code .hljs-selector-tag,
+.ck-content pre code .hljs-operator       { color: var(--ferra-rose); }
+.ck-content pre code .hljs-string,
+.ck-content pre code .hljs-regexp,
+.ck-content pre code .hljs-addition       { color: var(--ferra-sage); }
+.ck-content pre code .hljs-number,
+.ck-content pre code .hljs-literal,
+.ck-content pre code .hljs-symbol         { color: var(--ferra-honey); }
+.ck-content pre code .hljs-title,
+.ck-content pre code .hljs-title.function_,
+.ck-content pre code .hljs-section,
+.ck-content pre code .hljs-bullet,
+.ck-content pre code .hljs-strong         { color: var(--ferra-coral); }
+.ck-content pre code .hljs-emphasis       { color: var(--ferra-rose); }
+.ck-content pre code .hljs-title.class_,
+.ck-content pre code .hljs-type,
+.ck-content pre code .hljs-built_in       { color: var(--ferra-honey); }
+.ck-content pre code .hljs-attr,
+.ck-content pre code .hljs-attribute,
+.ck-content pre code .hljs-property       { color: var(--ferra-sage-dim); }
+.ck-content pre code .hljs-variable,
+.ck-content pre code .hljs-template-variable,
+.ck-content pre code .hljs-params         { color: var(--ferra-blush); }
+.ck-content pre code .hljs-tag,
+.ck-content pre code .hljs-name,
+.ck-content pre code .hljs-deletion       { color: var(--ferra-ember); }
+.ck-content pre code .hljs-meta           { color: var(--ferra-bark); }
+.ck-content pre code .hljs-punctuation    { color: var(--ferra-muted); }
+
+.ck-content table td,
+.ck-content table th { border-color: var(--ferra-umber) !important; }
+
+.ck-content mark {
+  background: var(--ferra-honey);
+  color: var(--ferra-night);
+}
+.ck-find-result {
+  background-color: var(--ferra-umber) !important;
+  color: inherit !important;
+}
+.ck-find-result_selected {
+  background-color: var(--ferra-coral) !important;
+  color: var(--ferra-night) !important;
+}
+
+/* ─── 7. Notas de código (CodeMirror 6) ───────────────────────────── */
+.cm-editor .cm-gutters {
+  background-color: var(--ferra-night) !important;
+  border-right: 1px solid var(--ferra-ash) !important;
+  color: var(--ferra-bark) !important;
+}
+.cm-editor .cm-activeLineGutter {
+  background-color: var(--ferra-ash) !important;
+  color: var(--ferra-blush) !important;
+}
+.cm-editor .cm-activeLine {
+  background-color: color-mix(in srgb, var(--ferra-ash) 50%, transparent) !important;
+}
+.cm-editor .cm-cursor { border-left-color: var(--ferra-blush) !important; }
+.cm-editor .cm-selectionBackground,
+.cm-editor.cm-focused .cm-selectionBackground {
+  background-color: var(--ferra-umber) !important;
+}
+.cm-editor .cm-matchingBracket {
+  background-color: var(--ferra-umber) !important;
+  outline: 1px solid var(--ferra-bark);
+}
+
+/* ─── 8. Menús y botones ──────────────────────────────────────────── */
+body.desktop .dropdown-menu::before { backdrop-filter: none; }
+.dropdown-menu { background-color: var(--ferra-ash) !important; }
+
+.btn-primary {
+  background-color: var(--ferra-blush) !important;
+  border-color: var(--ferra-blush) !important;
+  color: var(--ferra-night) !important;
+}
+.btn-primary:hover { background-color: var(--ferra-coral) !important; border-color: var(--ferra-coral) !important; }
+
+/* Interruptores: el tema Next los redefine en div.switch-widget con
+   --cmd-button-background-color (ash = mismo color que la tarjeta) */
+body div.switch-widget,
+:root body .ck.ck-switchbutton {
+  --switch-off-track-background: var(--ferra-bark);
+  --switch-off-thumb-background: var(--ferra-blush);
+  --switch-on-track-background: var(--ferra-blush);
+  --switch-on-thumb-background: var(--ferra-night);
+}
+
+/* Tarjetas de lista/rejilla: Trilium les añade contrast(105%) al pasar
+   el ratón, que satura el tono */
+.note-list .note-book-card:hover { filter: none; }
+
+/* Títulos de Opciones */
+.options-section h4 {
+  color: var(--ferra-blush);
+}
+
+/* Fechas de Cambios recientes: coral (#ffa07a, el naranja de ferra) para
+   que se distingan de las entradas */
+.recent-changes-content > div > b {
+  color: var(--ferra-coral);
+}
+
+/* Insignias: el texto es #fff fijo en Trilium */
+.note-badges .ext-badge:not(.outline):not(.attribute-badge) {
+  color: var(--ferra-blush);
+}
+.note-badges .ext-badge.outline.clickable:hover {
+  color: var(--ferra-night);
+}
+
+/* ─── 8b. Mapa de notas (canvas) ───────────────────────────────── */
+/* Trilium lee estos <span> ocultos para pintar el grafo:
+   .style-resolver            → líneas, flechas y etiquetas de relación
+   -background                → icono de los nodos que tienen color
+   -anchor / -anchor-icon     → relleno e icono de los nodos sin color */
+.style-resolver { color: #ae8f7f !important; }
+.style-resolver .style-resolver-background  { color: #2b292d !important; }
+.style-resolver .style-resolver-anchor      { color: #fecdb2 !important; }
+.style-resolver .style-resolver-anchor-icon { color: #2b292d !important; }
+
+/* ─── 9. Colores de nota en modo oscuro ───────────────────────────── */
+.use-note-color { --custom-color: var(--dark-theme-custom-color); }
+
+/* ─── 10. Lienzo ──────────────────────────────────────────────────── */
+.excalidraw.theme--dark {
+  --island-bg-color: var(--ferra-ash) !important;
+  --button-hover-bg: var(--ferra-umber) !important;
+}
