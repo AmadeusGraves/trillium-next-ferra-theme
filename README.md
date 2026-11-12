@@ -82,4 +82,4 @@ Theme hooks follow the [TriliumNext theme guide](https://docs.triliumnotes.org/u
 
 ## License
 
-No license is granted for this stylesheet yet. The upstream Ferra palette is released under the Apache 2.0
+This is released under the Apache 2.0
