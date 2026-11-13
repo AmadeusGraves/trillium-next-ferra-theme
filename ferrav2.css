@@ -89,7 +89,7 @@
 
   --cmd-button-background-color: var(--ferra-ash);
   --cmd-button-text-color: var(--ferra-blush);
-  --cmd-button-hover-background-color: var(--ferra-umber);
+  --cmd-button-hover-background-color: var(--ferra-hover);   /* igual que el hover del árbol */
   --cmd-button-hover-text-color: var(--ferra-blush);
   --cmd-button-shadow-color: var(--ferra-black);
   --cmd-button-icon-color: var(--ferra-blush);
@@ -104,10 +104,10 @@
   --button-group-active-button-color: var(--ferra-blush);
   --button-group-active-button-shadow-color: var(--ferra-black);
 
-  --icon-button-hover-background: var(--ferra-umber);
+  --icon-button-hover-background: var(--ferra-hover);   /* flechas del calendario, tool buttons */
   --icon-button-hover-color: var(--ferra-blush);
   --opaque-icon-button-background: var(--ferra-ash);
-  --opaque-icon-button-hover-background-color: var(--ferra-umber);
+  --opaque-icon-button-hover-background-color: var(--ferra-hover);
   --opaque-icon-button-backdrop-filter: none;
 
   /* Formularios */
@@ -189,7 +189,7 @@
   --modal-control-button-background: var(--ferra-ash);
   --modal-control-button-color: var(--ferra-blush);
   --modal-control-button-hover-color: var(--ferra-blush);
-  --modal-control-button-hover-background: var(--ferra-umber);
+  --modal-control-button-hover-background: var(--ferra-hover);
   --modal-footer-background: var(--ferra-ash);
   --modal-footer-color: var(--ferra-muted);
 
@@ -219,6 +219,7 @@
   --left-pane-item-selected-background: var(--ferra-umber);
   --left-pane-item-selected-color: var(--ferra-blush);
   --left-pane-item-selected-shadow: none;
+  --left-pane-item-selected-shadow-size: 0; /* mismo caja que el hover (Next usa inset 2px) */
   --left-pane-item-action-button-background: var(--ferra-bark);
   --left-pane-item-action-button-color: var(--ferra-blush);
   --left-pane-item-action-button-hover-background: var(--ferra-blush);
@@ -228,7 +229,7 @@
   --launcher-pane-vert-background-color: var(--ferra-ash);
   --launcher-pane-vert-text-color: var(--ferra-blush);
   --launcher-pane-vert-button-hover-color: var(--ferra-blush);
-  --launcher-pane-vert-button-hover-background: var(--ferra-umber);
+  --launcher-pane-vert-button-hover-background: var(--ferra-hover);   /* igual que el hover del árbol */
   --launcher-pane-vert-button-hover-shadow: none;
   --launcher-pane-vert-background-color-bgfx: var(--ferra-ash);
 
@@ -236,7 +237,7 @@
   --launcher-pane-horiz-background-color: var(--ferra-ash);
   --launcher-pane-horiz-text-color: var(--ferra-blush);
   --launcher-pane-horiz-button-hover-color: var(--ferra-blush);
-  --launcher-pane-horiz-button-hover-background: var(--ferra-umber);
+  --launcher-pane-horiz-button-hover-background: var(--ferra-hover);
   --launcher-pane-horiz-button-hover-shadow: none;
   --launcher-pane-horiz-background-color-bgfx: var(--ferra-ash);
   --launcher-pane-horiz-border-color-bgfx: var(--ferra-night);
@@ -257,7 +258,7 @@
   --right-pane-background-color-bgfx: var(--ferra-night);
   --right-pane-heading-color: var(--ferra-muted);
   --right-pane-peek-background: var(--ferra-ash);
-  --right-pane-item-hover-background: var(--ferra-umber);
+  --right-pane-item-hover-background: var(--ferra-hover);
   --right-pane-item-hover-color: var(--ferra-blush);
 
   --peek-pane-backdrop-color: color-mix(in srgb, var(--ferra-black) 40%, transparent);
@@ -282,7 +283,7 @@
   --new-tab-button-background: transparent;
   --new-tab-button-color: var(--ferra-muted);
   --new-tab-button-shadow: none;
-  --new-tab-button-hover-background: var(--ferra-umber);
+  --new-tab-button-hover-background: var(--ferra-hover);
   --new-tab-button-hover-color: var(--ferra-blush);
 
   /* Barras, insignias, iconos */
@@ -312,7 +313,7 @@
   --code-block-box-shadow: 0 0 0 1px var(--ferra-ash);
   --inline-code-background-color: var(--ferra-ash);
   --inline-code-border-color: var(--ferra-umber);
-  --inline-code-hover-background-color: var(--ferra-umber);
+  --inline-code-hover-background-color: var(--ferra-hover);
 
   /* Tarjetas */
   --card-background-color: var(--ferra-ash);
@@ -322,8 +323,8 @@
 
   /* Calendario / línea temporal */
   --calendar-color: var(--ferra-blush);
-  --calendar-day-hover-background: var(--ferra-umber);
-  --calendar-day-highlight-background: var(--ferra-umber);
+  --calendar-day-hover-background: var(--ferra-hover);
+  --calendar-day-highlight-background: var(--ferra-umber);   /* día con nota; umber = acento, no hover */
   --calendar-day-selected-background: var(--ferra-blush);
   --calendar-day-selected-color: var(--ferra-night);
   --calendar-coll-event-background-color: var(--ferra-umber);
@@ -439,7 +440,7 @@
   /* Tablero (base; los tintes por nota se anulan en § 5) */
   --board-column-background: var(--ferra-ash);
   --board-inbox-item-background: var(--ferra-night);
-  --board-inbox-item-hover-background: var(--ferra-umber);
+  --board-inbox-item-hover-background: var(--ferra-hover);
   --board-limit-exceeded-background: var(--ferra-red-dim);
   --board-limit-exceeded-outline: var(--ferra-ember);
   --board-drop-hint-color: var(--ferra-blush);
@@ -465,6 +466,24 @@ body {
 }
 
 /* ─── 3. Árbol ────────────────────────────────────────────────────── */
+/* Mismo ancho (el del contenido) en hover y selección: el «+» de Next
+   ensanchaba el nodo al aparecer; lo sacamos del flujo y reservamos
+   padding. Un hueco vertical evita que dos pastillas vecinas formen
+   frontera continua. */
+:is(#left-pane, .tree-popup-sidebar) span.fancytree-node {
+  position: relative;
+  box-sizing: border-box;
+  padding-inline-end: 1.75em;
+  margin-block: 1px;
+}
+:is(#left-pane, .tree-popup-sidebar) span.fancytree-node .tree-item-button,
+:is(#left-pane, .tree-popup-sidebar) span.fancytree-node .add-note-button {
+  position: absolute;
+  inset-inline-end: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-inline: 0 !important;
+}
 #left-pane span.fancytree-node.fancytree-active .fancytree-title {
   color: var(--ferra-blush);
 }
@@ -538,7 +557,7 @@ body .board-column h3 {
 #trilium-app .board-view-container .board-column.with-hue .board-note,
 #trilium-app .board-view-container .board-note.with-hue {
   --note-card-background: var(--ferra-night);
-  --note-card-hover-background: var(--ferra-umber);
+  --note-card-hover-background: var(--ferra-hover);
   --note-card-text-color: var(--ferra-blush);
   --note-card-muted-text-color: var(--ferra-muted);
   --board-text-color: var(--ferra-blush);
@@ -548,7 +567,9 @@ body .board-column h3 {
 #trilium-app .board-view-container .board-note {
   background-color: var(--ferra-night);
 }
-#trilium-app .board-view-container .board-note:hover,
+#trilium-app .board-view-container .board-note:hover {
+  background-color: var(--ferra-hover);
+}
 #trilium-app .board-view-container .board-note.editing {
   background-color: var(--ferra-umber);
 }
@@ -570,7 +591,9 @@ body .board-column h3 {
   background-color: color-mix(in srgb, hsl(var(--board-item-hue) 45% 60%) 16%, var(--ferra-night));
 }
 #trilium-app .board-view-container .board-note.with-hue:hover,
-#trilium-app .board-view-container .board-column.with-hue .board-note:hover,
+#trilium-app .board-view-container .board-column.with-hue .board-note:hover {
+  background-color: color-mix(in srgb, hsl(var(--board-item-hue) 45% 60%) 26%, var(--ferra-hover));
+}
 #trilium-app .board-view-container .board-note.with-hue.editing {
   background-color: color-mix(in srgb, hsl(var(--board-item-hue) 45% 60%) 26%, var(--ferra-umber));
 }
@@ -680,6 +703,33 @@ body.desktop .dropdown-menu::before { backdrop-filter: none; }
 }
 .btn-primary:hover { background-color: var(--ferra-coral) !important; border-color: var(--ferra-coral) !important; }
 
+/* Botones de comando (Cancelar, secundarios, pequeños, CKEditor): el tema
+   Next no les pone border, solo una sombra 1px 1px abajo a la derecha; con
+   fondo ash sobre ash no se veían los bordes de arriba ni de la izquierda.
+   Fondo ash en reposo (night se fundía con el fondo en otras zonas),
+   hover igual que el del árbol y sin sombra, como el resto de botones.
+   Los grupos de botones (:root div.btn-group button.btn…) tienen más
+   especificidad y siguen transparentes. */
+:root :is(button.btn.btn-secondary,
+          button.btn.btn-sm:not(.select-button):not(.btn-primary),
+          button.btn.btn-success,
+          button.ck.ck-button:is(.ck-button-action, .ck-button-save, .ck-button-cancel,
+                                 .ck-button-replaceall, .ck-button-replace,
+                                 .ck-button_standard).ck-button_with-text,
+          .ck-ai-assistant-form__actions > button.ck.ck-button.ck-button_with-text,
+          .ck-table-form__action-row > button.ck.ck-button.ck-button_with-text,
+          button.ck.ck-button.ck-ai-assistant-form__icon-action) {
+  --cmd-button-background-color: var(--ferra-ash);
+  --cmd-button-hover-background-color: var(--ferra-hover);
+  box-shadow: none;
+}
+/* El pie de los modales es ash: ahí el botón va en night para no fundirse */
+:root .modal-footer :is(button.btn.btn-secondary,
+                        button.btn.btn-sm:not(.select-button):not(.btn-primary),
+                        button.btn.btn-success) {
+  --cmd-button-background-color: var(--ferra-night);
+}
+
 /* Interruptores: el tema Next los redefine en div.switch-widget con
    --cmd-button-background-color (ash = mismo color que la tarjeta) */
 body div.switch-widget,
@@ -688,6 +738,14 @@ body div.switch-widget,
   --switch-off-thumb-background: var(--ferra-blush);
   --switch-on-track-background: var(--ferra-blush);
   --switch-on-thumb-background: var(--ferra-night);
+}
+
+/* Deslizadores (input.slider): el carril usa --cmd-button-background-color
+   (ash = mismo color que la tarjeta) y no se veía hasta dónde llega */
+:root body .slider {
+  --slider-track-background: var(--ferra-bark);
+  --slider-fill-background: var(--ferra-blush);
+  --slider-thumb-background: var(--ferra-blush);
 }
 
 /* Tarjetas de lista/rejilla: Trilium les añade contrast(105%) al pasar
@@ -729,5 +787,5 @@ body div.switch-widget,
 /* ─── 10. Lienzo ──────────────────────────────────────────────────── */
 .excalidraw.theme--dark {
   --island-bg-color: var(--ferra-ash) !important;
-  --button-hover-bg: var(--ferra-umber) !important;
+  --button-hover-bg: var(--ferra-hover) !important;
 }
